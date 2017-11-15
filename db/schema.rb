@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20171115164018) do
     t.string "name"
   end
 
-  create_table "jobcompanycards", force: :cascade do |t|
+  create_table "job_company_cards", force: :cascade do |t|
     t.integer "job_id"
     t.integer "company_id"
     t.string  "salary"
