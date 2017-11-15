@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171115164018) do
+ActiveRecord::Schema.define(version: 20171115192619) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
   end
 
-  create_table "jobcompanycards", force: :cascade do |t|
+  create_table "job_company_cards", force: :cascade do |t|
     t.integer "job_id"
     t.integer "company_id"
     t.string  "salary"
