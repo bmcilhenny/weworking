@@ -33,12 +33,16 @@ end
 
 def how_many_jobs_in_that_city(location)
   data_1 = JSON.parse(RestClient.post('https://us.jooble.org/api/c1932510-a81b-4ca7-8b11-7c82f34f417a', {"content": '{"keywords": "software engineer", "location": "' + location + '", "salary": "100000", "page": "1" }'}))
-  puts "There are a total of #{data_1["totalCount"]} jobs in this city."
+  puts "There are a total of #{data_1["totalCount"]} jobsy
+   in this city."
 end
 
 #binding.pry
 
 def populate_seed_file(all_job_data)
+  Job.destroy_all
+  Company.destroy_all
+  JobCompanyCard.destroy_all
   all_job_data.each do |individual_job_hash|
     job = Job.create(title: individual_job_hash['title'], location: individual_job_hash['location'])
     company = Company.create(name: individual_job_hash['company'])
