@@ -9,14 +9,14 @@ class API
       i = 1
       data_arr = []
 
-      data_for_this_position = JSON.parse(RestClient.post('https://us.jooble.org/api/759fd027-a350-49f9-975f-71427c42165e', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": "1" }'}))
+      data_for_this_position = JSON.parse(RestClient.post('https://us.jooble.org/api/305669ae-d50a-4f0b-b5a9-4688a2ebb979', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": "1" }'}))
 
       count = ((data_for_this_position["totalCount"] / 20).ceil)/2
 
-      JSON.parse(RestClient.post('https://us.jooble.org/api/759fd027-a350-49f9-975f-71427c42165e', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": "1" }'}))
+      JSON.parse(RestClient.post('https://us.jooble.org/api/305669ae-d50a-4f0b-b5a9-4688a2ebb979', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": "1" }'}))
 
       while i < count
-        data = JSON.parse(RestClient.post('https://us.jooble.org/api/759fd027-a350-49f9-975f-71427c42165e', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": '"#{i}"' }'}))
+        data = JSON.parse(RestClient.post('https://us.jooble.org/api/305669ae-d50a-4f0b-b5a9-4688a2ebb979', {"content": '{"keywords": "' + position + '", "salary": "100000", "page": '"#{i}"' }'}))
         data_arr << data["jobs"]
         i += 1
       end
