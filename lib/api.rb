@@ -34,16 +34,6 @@ def valid_keyword?(keyword)
   end
 end
 
-def exit?
-  puts "Would you like to start over or exit the app? (start over/exit)"
-  input = gets.chomp
-  if input == "start over"
-    run
-  elsif input == "exit"
-    puts "Good Bye!"
-    exit
-  end
-end
 
 class SalaryHelperMethods
   def self.str_to_i(sal_str)
@@ -61,7 +51,7 @@ class SalaryHelperMethods
     if input == "y"
       order_by_salary(keyword, my_city)
     elsif input == "n"
-      exit?
+      UserMethod.exit?
     elsif input != "y" || "n"
       "Please input again"
       new_input = gets.chomp

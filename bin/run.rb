@@ -2,6 +2,18 @@ require_relative '../config/environment.rb'
 require_relative '../lib/api.rb'
 
 def run
+  system("clear")
+  puts "o          `O                             o                    "
+  puts "O           o                             O     o              "
+  puts "o           O                             o                    "
+  puts "O           O                             o                    "
+  puts "o     o     o .oOo. 'o     O .oOo. `OoOo. O  o  O  'OoOo. .oOoO"
+  puts "O     O     O OooO'  O  o  o O   o  o     OoO   o   o   O o   O"
+  puts "`o   O o   O' O      o  O  O o   O  O     o  O  O   O   o O   o"
+  puts "`OoO' `OoO'  `OoO'  `Oo'oO' `OoO'  o     O   o o'  o   O `OoOo"
+  puts "                                                             O  "
+  puts "                                                         OoO' "
+
   puts "Welcome to Weworking. If you would like to exit the program at any time type 'exit'. Looking to start over? Type 'start over'."
   puts "Hi! Please enter your name:"
 
@@ -15,13 +27,13 @@ def run
     run
   end
 
-  if user_exists?(user)
-      puts "Welcome back #{user}! You have #{number_of_jobs_saved(user)} saved jobs."
+  if UserMethod.user_exists?(user)
+      puts "Welcome back #{user}! You have #{UserMethod.number_of_jobs_saved(user)} saved jobs."
       sleep(3)
   else
       puts "Greetings #{user}!"
       sleep(3)
-      add_user(user)
+      UserMethod.add_user(user)
   end
 
 
@@ -41,6 +53,7 @@ def run
   #Once location is valid
 
   puts "Where are you looking to work? Please enter the city name. Need some help deciding where to look? Here is the list of the five cities with the most jobs:"
+  sleep(2)
   JobStats.top_five_cities_most_x_jobs(my_keyword)
 
   location = gets.chomp.titleize
@@ -77,7 +90,7 @@ def run
 
   SalaryHelperMethods.salary_question(input, my_keyword, my_city)
 
-  sleep(4)
+  sleep(3)
 
   puts "Which of these jobs would you like to save?(pick 1/2/3/4/5/none)"
 
@@ -94,7 +107,7 @@ def run
     run
   end
 
-  save_job_answer(user, answer, to_save_arr)
+  JobMethod.save_job_answer(user, answer, to_save_arr)
 
   puts "Would you like to see all your saved jobs? (y/n)"
 
@@ -108,11 +121,9 @@ def run
     run
   end
 
-  answer_to_see_jobs(y_n, user)
+  UserMethod.answer_to_see_jobs(y_n, user)
 
-  exit?
-
-
+  UserMethod.exit?
 
 end
 
