@@ -5,7 +5,7 @@ def add_user(name)
 end
 
 def save_job?(user, job)
-  UserJobCard.find_or_create_by(user: User.find_by(name: user), job_company_card: JobCompanyCard.find_by(salary: job.salary))
+  UserJobCard.find_or_create_by(user: User.find_by(name: user), job_company_card: JobCompanyCard.find_by(job: job.job))
 end
 
 def list_jobs_saved(user)

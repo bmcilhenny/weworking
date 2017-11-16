@@ -20,6 +20,20 @@ def count_job_by_city(city_name, keyword)
   puts "There are #{num} jobs in #{city_name}"
 end
 
+def valid_keyword?(keyword)
+  if keyword == "Software Engineer"
+    return keyword
+  elsif keyword == "Project Manager"
+    return keyword
+  elsif keyword == "Developer"
+    return keyword
+  else
+    puts "Please choose from the jobs above:"
+    new_keyword = gets.chomp.titleize
+    valid_keyword?(new_keyword)
+  end
+end
+
 class SalaryHelperMethods
   def self.str_to_i(sal_str)
     sal_arr = sal_str.split(" ").delete_if{|x| x == "-" || x == "per" || x == "hour"}
@@ -49,7 +63,7 @@ class SalaryHelperMethods
       inst.job.title.include?(keyword) && inst.job.location.include?(city)
     end
   #array of instances
-    highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.slice(0, 4)
+    highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.first(5)
 
     highest_inst.each do |inst|
       puts "#{inst.job.title}, #{inst.company.name}, #{inst.job.location}, $#{inst.salary}"
