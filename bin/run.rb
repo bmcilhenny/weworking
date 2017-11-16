@@ -1,48 +1,119 @@
 require_relative '../config/environment.rb'
 require_relative '../lib/api.rb'
 
-puts "Hi! Please enter your name:"
+def run
+  puts "Welcome to Weworking. If you would like to exit the program at any time type 'exit'. Looking to start over? Type 'start over'."
+  puts "Hi! Please enter your name:"
 
-user = gets.chomp.titleize
-add_user(user)
+  user = gets.chomp.titleize
 
-puts "Choose a job you are interested in: Software Engineer, Project Manager, or Developer."
-keyword = gets.chomp.titleize
+  if user == "exit"
+    puts "Goodbye!"
+    exit
+  elsif user == "start over"
+    puts "start over"
+    run
+  end
 
-my_keyword = valid_keyword?(keyword)
-#Once location is valid
-sleep(4)
+  if user_exists?(user)
+      puts "Welcome back #{user}! You have #{number_of_jobs_saved(user)} saved jobs."
+      sleep(3)
+  else
+      puts "Greetings #{user}!"
+      sleep(3)
+      add_user(user)
+  end
 
-puts "Where are you looking to work? Please enter the city name."
-location = gets.chomp.titleize
-my_city = location_valid?(location)
 
-#grab all data given user's location
-#binding.pry
-#populate database given that location
-puts "Great, you're looking for jobs in #{my_city}!"
-#display to the user how many jobs are in that city
-count_job_by_city(my_city, my_keyword)
-sleep(4)
+  puts "Choose a job you are interested in: Software Engineer, Project Manager, or Developer."
+  sleep(3)
+  keyword = gets.chomp.titleize
 
-puts "Would you like to know the highest paying jobs in #{my_city}? (y/n)"
+  if keyword == "exit"
+    puts "Goodbye!"
+    exit
+  elsif keyword == "start over"
+    puts "start over"
+    run
+  end
 
-input = gets.chomp
-SalaryHelperMethods.salary_question(input, my_keyword, my_city)
+  my_keyword = valid_keyword?(keyword)
+  #Once location is valid
 
-sleep(4)
+  puts "Where are you looking to work? Please enter the city name. Need some help deciding where to look? Here is the list of the five cities with the most jobs:"
+  JobStats.top_five_cities_most_x_jobs(my_keyword)
 
-puts "Which of these jobs would you like to save?(pick 1/2/3/4/5/none)"
+  location = gets.chomp.titleize
 
-to_save_arr = SalaryHelperMethods.array_of_salary_inst(my_keyword, my_city)
+  if location == "exit"
+    puts "Goodbye!"
+    exit
+  elsif location == "start over"
+    puts "start over"
+    run
+  end
 
-#binding.pry
-answer = gets.chomp
+  my_city = location_valid?(location)
 
-save_job_answer(user, answer, to_save_arr)
+  #grab all data given user's location
+  #binding.pry
+  #populate database given that location
+  puts "Great, you're looking for jobs in #{my_city}!"
+  #display to the user how many jobs are in that city
+  count_job_by_city(my_city, my_keyword)
+  sleep(4)
 
-puts "Would you like to see all your saved jobs? (y/n)"
+  puts "Would you like to know the highest paying jobs in #{my_city}? (y/n)"
 
-y_n = gets.chomp
+  input = gets.chomp
 
-answer_to_see_jobs(y_n, user)
+  if input == "exit"
+    puts "Goodbye!"
+    exit
+  elsif input == "start over"
+    puts "start over"
+    run
+  end
+
+  SalaryHelperMethods.salary_question(input, my_keyword, my_city)
+
+  sleep(4)
+
+  puts "Which of these jobs would you like to save?(pick 1/2/3/4/5/none)"
+
+  to_save_arr = SalaryHelperMethods.array_of_salary_inst(my_keyword, my_city)
+
+  #binding.pry
+  answer = gets.chomp
+
+  if answer == "exit"
+    puts "Goodbye!"
+    exit
+  elsif answer == "start over"
+    puts "start over"
+    run
+  end
+
+  save_job_answer(user, answer, to_save_arr)
+
+  puts "Would you like to see all your saved jobs? (y/n)"
+
+  y_n = gets.chomp
+
+  if y_n == "exit"
+    puts "Goodbye!"
+    exit
+  elsif y_n == "start over"
+    puts "start over"
+    run
+  end
+
+  answer_to_see_jobs(y_n, user)
+
+  exit?
+
+
+
+end
+
+run

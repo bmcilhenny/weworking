@@ -34,6 +34,17 @@ def valid_keyword?(keyword)
   end
 end
 
+def exit?
+  puts "Would you like to start over or exit the app? (start over/exit)"
+  input = gets.chomp
+  if input == "start over"
+    run
+  elsif input == "exit"
+    puts "Good Bye!"
+    exit
+  end
+end
+
 class SalaryHelperMethods
   def self.str_to_i(sal_str)
     sal_arr = sal_str.split(" ").delete_if{|x| x == "-" || x == "per" || x == "hour"}
@@ -50,7 +61,7 @@ class SalaryHelperMethods
     if input == "y"
       order_by_salary(keyword, my_city)
     elsif input == "n"
-      exit
+      exit?
     elsif input != "y" || "n"
       "Please input again"
       new_input = gets.chomp
@@ -78,5 +89,13 @@ class SalaryHelperMethods
     highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.slice(0, 4)
   end
 
+
+end
+
+class JobStats
+  def self.top_five_cities_most_x_jobs(keyword)
+    top_five_cities = Job.where("title LIKE ?", "%#{keyword}%").group('location').order('location').count#.first(5)
+    puts top_five_cities.sort_by {|key, value| value}.reverse.first(5)
+  end
 
 end

@@ -1,7 +1,16 @@
 require 'pry'
+require_relative './api.rb'
 
 def add_user(name)
   new_user = User.find_or_create_by(name: name)
+end
+
+def user_exists?(name)
+  if User.exists?(:name => name)
+    true
+  else
+    false
+  end
 end
 
 def save_job?(user, job)
@@ -13,6 +22,10 @@ def list_jobs_saved(user)
   jobs.each do |job_inst|
     puts "#{job_inst.job_company_card.job.title}, #{job_inst.job_company_card.company.name}, #{job_inst.job_company_card.job.location}, $#{job_inst.job_company_card.salary}"
   end
+end
+
+def number_of_jobs_saved(user)
+  UserJobCard.all.select {|inst| inst.user.name == user}.length
 end
 
 def save_job_answer(user, answer, to_save_arr)
@@ -27,7 +40,7 @@ def save_job_answer(user, answer, to_save_arr)
   elsif answer == "5"
     save_job?(user, to_save_arr[4])
   elsif answer == "none"
-    exit
+    exit?
   end
 end
 
@@ -35,6 +48,6 @@ def answer_to_see_jobs(y_n, user)
   if y_n == "y"
     list_jobs_saved(user)
   elsif y_n == "n"
-    exit
+    exit?
   end
 end
