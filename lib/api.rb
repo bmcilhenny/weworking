@@ -30,6 +30,7 @@ class SalaryHelperMethods
     elsif sal_arr.length == 2
       sal_arr.map { |str| str.delete("$").sub!("k", "000").to_i}.flatten.reduce(:+) / 2
     end
+    #if the new number's length is equal to 2 add two 0s, if the new_number's length is equal to
   end
 
   def self.salary_question(input, keyword, my_city)
@@ -56,4 +57,17 @@ class SalaryHelperMethods
     puts "$" + "#{highest_inst.salary}"
     puts highest_inst.description
   end
+end
+
+class JobStats
+  def self.top_five_cities_most_x_jobs(keyword)
+    top_five_cities = Job.where("title LIKE ?", "%#{keyword}%").group('location').order('location').count#.first(5)
+    top_five_cities.sort_by {|key, value| value}.reverse.first(5)
+  end
+
+  # def self.three_cities_with_the_lowest_paying_jobs(keyword)
+  #
+  #   three_lowest_paying_cities = JobCompanyCard.select("*").group(:job_id).order('salary').where("salary != 0")
+  #
+  # end
 end
