@@ -2,7 +2,7 @@ require_relative '../config/environment.rb'
 require_relative '../lib/api.rb'
 
 def run
-
+  puts "Welcome to Weworking. If you would like to exit the program at any time type 'exit'?"
   puts "Hi! Please enter your name:"
     user = gets.chomp
 
@@ -30,7 +30,6 @@ def run
       location = gets.chomp
       my_city = location_valid?(location)
       #grab all data given user's location
-    
       #populate database given that location
       puts "Great, you're looking for job(s) in #{my_city}!"
       #display to the user how many jobs are in that city
