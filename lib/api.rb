@@ -39,11 +39,6 @@ def grab_data_from_api(keyword)
   data_arr.flatten!
 end
 
-def how_many_jobs_in_that_city(keyword, location)
-  data_1 = JSON.parse(RestClient.post('https://us.jooble.org/api/9a43697f-524f-498c-a367-797f250450fd', {"content": '{"keywords": "' + keyword + '", "location": "' + location + '", "salary": "100000", "page": "1" }'}))
-  puts "There are a total of #{data_1["totalCount"]} jobs in this city."
-end
-
 #binding.pry
 
 def str_to_i(sal_str)
@@ -66,12 +61,13 @@ def populate_seed_file(all_job_data)
 end
 
 def location_valid?(city_name)
-  if Job.all.each {|inst| inst.location.downcase == city_name.downcase} == false
+  #binding.pry
+  if Job.all.map {|inst| inst.location.downcase.include?(city_name.downcase)}.include?(true)
+    return city_name
+  else
     puts "Please enter a valid city:"
     new_input = gets.chomp
     location_valid?(new_input)
-  else
-    return city_name
   end
 end
 # binding.pry
