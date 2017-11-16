@@ -7,3 +7,4 @@ gem "sqlite3"
 gem "pry"
 gem "require_all"
 gem "rest-client"
+#gem 'csv', '~> 0.1.0'

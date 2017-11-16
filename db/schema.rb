@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171115164018) do
+ActiveRecord::Schema.define(version: 20171116040603) do
 
   create_table "companies", force: :cascade do |t|
     t.string "name"
@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20171115164018) do
   create_table "job_company_cards", force: :cascade do |t|
     t.integer "job_id"
     t.integer "company_id"
-    t.string  "salary"
+    t.integer "salary"
     t.string  "description"
   end
 
