@@ -1,4 +1,5 @@
 require 'pry'
+require_relative './api.rb'
 
 def user_exists?(name)
   if User.exists?(:name => name)
@@ -10,6 +11,14 @@ end
 
 def add_user(name)
   new_user = User.find_or_create_by(name: name)
+end
+
+def user_exists?(name)
+  if User.exists?(:name => name)
+    true
+  else
+    false
+  end
 end
 
 def save_job?(user, job)
@@ -39,7 +48,7 @@ def save_job_answer(user, answer, to_save_arr)
   elsif answer == "5"
     save_job?(user, to_save_arr[4])
   elsif answer == "none"
-    exit
+    exit?
   end
 end
 
@@ -47,6 +56,6 @@ def answer_to_see_jobs(y_n, user)
   if y_n == "y"
     list_jobs_saved(user)
   elsif y_n == "n"
-    exit
+    exit?
   end
 end

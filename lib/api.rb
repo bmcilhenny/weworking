@@ -20,6 +20,31 @@ def count_job_by_city(city_name, keyword)
   puts "There are #{num} jobs in #{city_name}"
 end
 
+def valid_keyword?(keyword)
+  if keyword == "Software Engineer"
+    return keyword
+  elsif keyword == "Project Manager"
+    return keyword
+  elsif keyword == "Developer"
+    return keyword
+  else
+    puts "Please choose from the jobs above:"
+    new_keyword = gets.chomp.titleize
+    valid_keyword?(new_keyword)
+  end
+end
+
+def exit?
+  puts "Would you like to start over or exit the app? (start over/exit)"
+  input = gets.chomp
+  if input == "start over"
+    run
+  elsif input == "exit"
+    puts "Good Bye!"
+    exit
+  end
+end
+
 class SalaryHelperMethods
   def self.str_to_i(sal_str)
     sal_arr = sal_str.split(" ").delete_if{|x| x == "-" || x == "per" || x == "hour"}
@@ -37,7 +62,7 @@ class SalaryHelperMethods
     if input == "y"
       order_by_salary(keyword, my_city)
     elsif input == "n"
-      exit
+      exit?
     elsif input != "y" || "n"
       "Please input again"
       new_input = gets.chomp
@@ -50,7 +75,7 @@ class SalaryHelperMethods
       inst.job.title.include?(keyword) && inst.job.location.include?(city)
     end
   #array of instances
-    highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.slice(0, 4)
+    highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.first(5)
 
     highest_inst.each do |inst|
       puts "#{inst.job.title}, #{inst.company.name}, #{inst.job.location}, $#{inst.salary}"
@@ -71,12 +96,7 @@ end
 class JobStats
   def self.top_five_cities_most_x_jobs(keyword)
     top_five_cities = Job.where("title LIKE ?", "%#{keyword}%").group('location').order('location').count#.first(5)
-    top_five_cities.sort_by {|key, value| value}.reverse.first(5)
+    puts top_five_cities.sort_by {|key, value| value}.reverse.first(5)
   end
 
-  # def self.three_cities_with_the_lowest_paying_jobs(keyword)
-  #
-  #   three_lowest_paying_cities = JobCompanyCard.select("*").group(:job_id).order('salary').where("salary != 0")
-  #
-  # end
 end
