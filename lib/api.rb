@@ -2,32 +2,22 @@ require 'rest-client'
 require 'JSON'
 require 'pry'
 
-# def grab_data_from_api(keyword)
-#   i = 1
-#   data_1 = JSON.parse(RestClient.post('https://us.jooble.org/api/9a43697f-524f-498c-a367-797f250450fd', {"content": '{"keywords": "' + keyword + '", "salary": "100000", "page": "1" }'}))
-#   count = (data_1["totalCount"] / 20).ceil
-#   data_arr = []
-#   while i < count
-#     data = JSON.parse(RestClient.post('https://us.jooble.org/api/9a43697f-524f-498c-a367-797f250450fd', {"content": '{"keywords": "' + keyword + '", "salary": "100000", "page": '"#{i}"' }'}))
-#     data_arr << data["jobs"]
-#     i += 1
-#   end
-#   data_arr.flatten!
-# end
-
-
-
 def location_valid?(city_name)
   #binding.pry
-  if Job.all.map {|inst| inst.location.downcase.include?(city_name.downcase)}.include?(true)
+  if Job.all.map {|inst|
+     inst.location.downcase.include?(city_name.downcase)}
+     .include?(true)
     return city_name
   else
-    false
+    puts "Please enter a valid city:"
+    new_input = gets.chomp
+    location_valid?(new_input)
   end
 end
 
-def find_job_by_city(city_name)
-  Job.where(location: city_name).count
+def count_job_by_city(city_name, keyword)
+  num = Job.all.select { |inst| inst.location.include?(city_name) && inst.title.include?(keyword)  }.length
+  puts "There are #{num} jobs in #{city_name}"
 end
 
 class SalaryHelperMethods
@@ -42,23 +32,28 @@ class SalaryHelperMethods
     end
   end
 
-  def self.salary_question(input)
+  def self.salary_question(input, keyword, my_city)
     if input == "y"
-      order_by_salary
+      order_by_salary(keyword, my_city)
     elsif input == "n"
       exit
     elsif input != "y" || "n"
-      "please input again"
+      "Please input again"
       new_input = gets.chomp
       salary_question(new_input)
     end
   end
 
-  def self.order_by_salary
-    highest_paying_job = JobCompanyCard.order(:salary).reverse.first
-    puts highest_paying_job.job.title
-    puts highest_paying_job.company.name
-    puts "$" + "#{highest_paying_job.salary}"
-    puts highest_paying_job.description
+  def self.order_by_salary(keyword, city)
+    jobcc_arr = JobCompanyCard.all.select do |inst|
+      inst.job.title.include?(keyword) && inst.job.location.include?(city)
+    end
+  #array of instances
+    highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.first
+
+    puts highest_inst.job.title
+    puts highest_inst.company.name
+    puts "$" + "#{highest_inst.salary}"
+    puts highest_inst.description
   end
 end
