@@ -24,8 +24,32 @@ class UserMethod
 
   def self.list_jobs_saved(user)
     jobs = UserJobCard.all.select {|inst| inst.user.name == user}
+    counter = 0
     jobs.each do |job_inst|
-      puts "#{job_inst.job_company_card.job.title}, #{job_inst.job_company_card.company.name}, #{job_inst.job_company_card.job.location}, $#{job_inst.job_company_card.salary}"
+      puts "#{counter + 1}. #{job_inst.job_company_card.job.title}, #{job_inst.job_company_card.company.name}, #{job_inst.job_company_card.job.location}, $#{job_inst.job_company_card.salary}"
+      counter +=1
+    end
+    #binding.pry
+    sleep(1)
+    puts "Select a number to view that job's description."
+    user_input = gets.chomp
+    if user_input.downcase == 'exit'
+      exit?
+    elsif user_input.to_i > jobs.length
+      system("clear")
+      puts "Invalid number. Try again."
+      sleep(1)
+      list_jobs_saved(user)
+    else
+      system("clear")
+      puts jobs[user_input.to_i - 1].job_company_card.description
+      sleep(1)
+      puts "----------------------------------------------------------------"
+      puts "Type 'back' to return to see other job descriptions. Type anything else to continue the job search."
+      user_input = gets.chomp
+      if user_input == 'back'
+        list_jobs_saved(user)
+      end
     end
   end
 

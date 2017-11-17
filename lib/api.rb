@@ -80,6 +80,14 @@ class SalaryHelperMethods
     highest_inst = jobcc_arr.sort_by{|inst| inst.salary}.reverse.slice(0, 4)
   end
 
+#refactored to return true or false
+  def self.valid_choice?(my_keyword, my_city, input, to_save_arr)
+    if input.to_i > to_save_arr.length
+      false
+    else
+      true
+    end
+  end
 
 end
 
